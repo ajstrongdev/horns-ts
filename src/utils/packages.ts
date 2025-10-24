@@ -9,8 +9,10 @@ export const getAptPackages = (): void => {
   const packageNames = installedPackages
     .trim()
     .split("\n")
-    .map((line) => line.split(":")[0].trim())
-    .filter((name) => name.length > 0);
+    .map((line) => line.split(/\s+/)[0].trim())
+    .filter(
+      (name) => name.length > 0 && name !== "install" && name !== "deinstall"
+    );
 
   console.log(packageNames);
 };
