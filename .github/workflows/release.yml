@@ -1,0 +1,53 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install
+
+      - name: Build
+        run: pnpm build
+
+      - name: Package
+        run: pnpm package
+
+      - name: Upload
+        uses: actions/upload-artifact@v5
+        with:
+          name: horns-ts-linux-x64
+          path: dist/horns-ts
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: horns-ts-linux-x64
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: horns-ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

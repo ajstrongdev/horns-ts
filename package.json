@@ -7,13 +7,26 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@oclif/core": "^4.7.2"
+    "@oclif/core": "^4.7.2",
+    "pkg": "^5.8.1"
   },
   "devDependencies": {
-    "typescript": "^5.6.3",
-    "ts-node": "^10.9.2"
+    "@types/node": "^20.19.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   },
   "oclif": {
     "commands": "./commands"
+  },
+  "pkg": {
+    "assets": [
+      "dist/commands/**/*",
+      "dist/utils/**/*",
+      "dist/package.json"
+    ],
+    "targets": [
+      "node20-linux-x64"
+    ],
+    "outputPath": "dist"
   }
 }
