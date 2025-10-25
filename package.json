@@ -1,18 +1,19 @@
 {
   "name": "horns-ts",
   "version": "1.0.0",
-  "type": "module",
+    "type": "module",
   "scripts": {
-    "build": "tsc && cp package.json dist/",
-    "package": "pkg dist/index.js --targets node20-linux-x64 --output dist/horns-ts",
-    "start": "node dist/index.js"
+    "build": "tsc",
+    "build:pkg": "tsc --project tsconfig.pkg.json",
+    "package": "pnpm build:pkg && pkg dist/index.js --targets node18-linux-x64 --output dist/horns-ts",
+    "release": "pnpm package"
   },
   "dependencies": {
-    "@oclif/core": "^4.7.2",
-    "pkg": "^5.8.1"
+    "@oclif/core": "^4.7.2"
   },
   "devDependencies": {
-    "@types/node": "^20.19.23",
+    "@types/node": "^18.19.130",
+    "pkg": "^5.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
