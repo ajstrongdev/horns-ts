@@ -29,7 +29,12 @@ jobs:
         run: pnpm build
 
       - name: Package
-        run: pnpm package
+        run: |
+          node --experimental-single-executable --target=linux-x64 dist/index.js
+
+      - name: Rename executable
+        run: mv dist/index dist/horns-ts
+        shell: bash
 
       - name: Upload
         uses: actions/upload-artifact@v5
