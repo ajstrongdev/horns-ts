@@ -1,35 +1,24 @@
 {
   "name": "horns-ts",
   "version": "1.0.0",
-    "type": "module",
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "build:pkg": "tsc --project tsconfig.pkg.json",
-    "package": "pnpm build:pkg && pkg dist/index.js --targets node18-linux-x64 --output dist/horns-ts",
-    "release": "pnpm package"
+    "package:x64": "pnpm build && bun build dist/index.js --compile --target=bun-linux-x64 --outfile dist/horns-x64",
+    "package:arm64": "pnpm build && bun build dist/index.js --compile --target=bun-linux-arm64 --outfile dist/horns-arm64"
   },
   "dependencies": {
     "@oclif/core": "^4.7.2"
   },
   "devDependencies": {
     "@types/node": "^18.19.130",
-    "pkg": "^5.8.1",
+    "@vercel/ncc": "^0.38.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
   "oclif": {
-    "commands": "./commands"
-  },
-  "pkg": {
-    "assets": [
-      "dist/commands/**/*",
-      "dist/utils/**/*",
-      "dist/package.json"
-    ],
-    "targets": [
-      "node20-linux-x64"
-    ],
-    "outputPath": "dist"
+    "commands": "./dist/commands"
   },
   "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"
 }
