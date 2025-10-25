@@ -2,7 +2,7 @@ import { Config } from "@oclif/core";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
 import BackupCommand from "./commands/backup.js";
-import { HELP_TEXT, VERSION } from "./help.js";
+import { HELP_TEXT, VERSION } from "./utils.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
