@@ -47,7 +47,7 @@ func GetPacstallPackages() ([]string, error) {
 	return packages, nil
 }
 
-func StructureBackup(aptPackages []string) map[string]any {
+func StructureBackup(aptPackages []string, pacstallPackages []string) map[string]any {
 	return map[string]any{
 		"custom_packages": map[string]any{
 			"apt": aptPackages,
@@ -64,7 +64,12 @@ var backupCmd = &cobra.Command{
 			fmt.Printf("Error retrieving APT packages: %v\n", err)
 			return
 		}
-		backupFile := StructureBackup(aptPackages)
+		pacstallPackages, err := GetPacstallPackages()
+		if err != nil {
+			fmt.Printf("Error retrieving Pacstall packages: %v\n", err)
+			return
+		}
+		backupFile := StructureBackup(aptPackages, pacstallPackages)
 		iteration := utils.GetIteration()
 		configDir := filepath.Join(os.Getenv("HOME"), ".config", "horns")
 		if _, err := os.Stat(configDir); os.IsNotExist(err) {
