@@ -30,6 +30,23 @@ func GetAptPackages() ([]string, error) {
 	return packages, nil
 }
 
+func GetPacstallPackages() ([]string, error) {
+	cmd := exec.Command("pacstall", "-L")
+	out, err := cmd.Output()
+	if err != nil {
+		return nil, err
+	}
+	lines := strings.Split(strings.TrimSpace(string(out)), "\n")
+	var packages []string
+	for _, line := range lines {
+		parts := strings.Fields(line)
+		if len(parts) > 0 {
+			packages = append(packages, parts[0])
+		}
+	}
+	return packages, nil
+}
+
 func StructureBackup(aptPackages []string) map[string]any {
 	return map[string]any{
 		"custom_packages": map[string]any{
