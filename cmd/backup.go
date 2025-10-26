@@ -23,8 +23,8 @@ func GetAptPackages() ([]string, error) {
 	var packages []string
 	for _, line := range lines {
 		parts := strings.Fields(line)
-		if len(parts) > 1 {
-			packages = append(packages, parts[1])
+		if len(parts) > 0 {
+			packages = append(packages, parts[0])
 		}
 	}
 	return packages, nil
