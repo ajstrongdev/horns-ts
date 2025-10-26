@@ -50,7 +50,8 @@ func GetPacstallPackages() ([]string, error) {
 func StructureBackup(aptPackages []string, pacstallPackages []string) map[string]any {
 	return map[string]any{
 		"custom_packages": map[string]any{
-			"apt": aptPackages,
+			"apt":      aptPackages,
+			"pacstall": pacstallPackages,
 		},
 	}
 }
