@@ -47,20 +47,19 @@ func GetPacstallPackages() ([]string, error) {
 	return packages, nil
 }
 
-func FlatpakCheck() (bool, error) {
-	cmd := exec.Command("bash", "-c", "which flatpak")
-	out, err := cmd.Output()
-	if err != nil {
-		return false, err
+func FlatpakCheck() bool {
+	cmd := exec.Command("which", "flatpak")
+	if err := cmd.Run(); err != nil {
+		return false
 	}
-	return len(out) > 0, nil
+	return true
 }
 
 func StructureBackup(flatpakInstalled bool, aptPackages []string, pacstallPackages []string) map[string]any {
 	return map[string]any{
 		"package_management": map[string]any{
 			"flatpak": map[string]any{
-				"installed": flatpakInstalled,
+				"enabled": flatpakInstalled,
 			},
 		},
 		"custom_packages": map[string]any{
@@ -84,11 +83,7 @@ var backupCmd = &cobra.Command{
 			fmt.Printf("Error retrieving Pacstall packages: %v\n", err)
 			return
 		}
-		flatpakInstalled, err := FlatpakCheck()
-		if err != nil {
-			fmt.Printf("Error checking Flatpak installation: %v\n", err)
-			return
-		}
+		flatpakInstalled := FlatpakCheck()
 		backupFile := StructureBackup(flatpakInstalled, aptPackages, pacstallPackages)
 		iteration := utils.GetIteration()
 		configDir := filepath.Join(os.Getenv("HOME"), ".config", "horns")
